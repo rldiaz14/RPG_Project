@@ -13,7 +13,7 @@ class CharacterFactory:
     cls: Type[BaseCharacter]
     default: dict
 
-    def create_character(self, name: str | None = None, **overrides) -> BaseCharacter:
+    def create(self, name: str | None = None, **overrides) -> BaseCharacter:
         kwargs = {**self.default, "name": name or self.default["name"], **overrides}
         return self.cls(**kwargs)
 
