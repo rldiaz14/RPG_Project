@@ -38,7 +38,6 @@ def test_spell_miss():
 
 
     #use a low accuracy spell to guarantee miss
-    from magics.spells import SPELLS
     from magics.elements import Element
 
     weak_spell = Spell(key="weak", name="Weak Shot", element=Element.FIRE,
