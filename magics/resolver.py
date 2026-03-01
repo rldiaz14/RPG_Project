@@ -44,7 +44,7 @@ def cast_spell(caster, target, spell: Spell) -> Dict[str, Any]:
     raw_damage = spell_power + spell.power
 
     # 4) Apply damage using existing pipeline
-    result = target.take_damage(raw_damage) # expect dodge logic inside take_damage
+    result = target.take_spell_damage(raw_damage, spell.element.value) # expect dodge logic inside take_damage
 
     return {
         "type": "spell",

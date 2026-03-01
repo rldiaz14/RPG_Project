@@ -2,6 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, Any
 
+from combat.magic_damage import apply_element_modifier, apply_spell_damage
 from combat.rng import roll
 from combat.damage import apply_defense
 
@@ -116,3 +117,17 @@ class BaseCharacter:
         if equipment is None:
             return base
         return equipment.apply_all(base)
+
+
+    def take_spell_damage(self, raw_damage: int, element: str = None) -> Dict[str, Any]:
+        # dodge check
+        if roll(self.dodge_chance):
+            return {"dodge": True, "damage_taken": 0, "hp": self.hp}
+
+        dmg = apply_spell_damage(raw_damage, self)
+
+        if element:
+            dmg = apply_element_modifier(dmg, element, self)
+
+        self.hp = max(0, self.hp - dmg)
+        return {"dodge": False, "damage_taken": dmg, "hp": self.hp}

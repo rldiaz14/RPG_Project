@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Dict
 
-from elements import Element
+from .elements import Element
 
 @dataclass(frozen=True)
 class Spell:
