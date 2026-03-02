@@ -13,6 +13,7 @@ class EnemyCharacter(BaseCharacter):
     element_weakness: dict = field(default_factory=dict) # {"fire": 1.5}
     element_resistance: dict = field(default_factory=dict) # {"ice": 0.5}
     xp_reward: int = 10
+    spell_keys: list = field(default_factory=list)
 
     def __post_init__(self):
         super().__post_init__()

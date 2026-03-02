@@ -56,6 +56,22 @@ ENEMIES: dict[str, EnemyFactory] = {
                 "xp_reward": 8,
             },
     ),
+    "dark_mage": EnemyFactory(
+        key="dark_mage",
+        cls=EnemyCharacter,
+        default={
+            "name": "Dark Mage",
+            "max_hp": 60,
+            "attack": 6,
+            "defense": 2,
+            "speed": 5,
+            "mana": 80,
+            "spell_power": 10,
+            "behavior": "caster",
+            "spell_keys": ["fireball"],
+            "reward": 25,
+        }
+    ),
 }
 
 def spawn_enemy(enemy_key: str, name: str | None = None, **overrides) -> EnemyCharacter:
