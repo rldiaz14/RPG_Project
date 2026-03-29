@@ -69,7 +69,7 @@ ENEMIES: dict[str, EnemyFactory] = {
             "spell_power": 10,
             "behavior": "caster",
             "spell_keys": ["fireball"],
-            "reward": 25,
+            "xp_reward": 25,
         }
     ),
 }

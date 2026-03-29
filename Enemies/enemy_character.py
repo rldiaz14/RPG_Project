@@ -14,6 +14,8 @@ class EnemyCharacter(BaseCharacter):
     element_resistance: dict = field(default_factory=dict) # {"ice": 0.5}
     xp_reward: int = 10
     spell_keys: list = field(default_factory=list)
+    mana: int = 0
+    spell_power: int = 0
 
     def __post_init__(self):
         super().__post_init__()
@@ -26,4 +28,8 @@ class EnemyCharacter(BaseCharacter):
                 "spell_resistance": self.spell_resistance,
                 "element_weakness": self.element_weakness,
                 "element_resistance": self.element_resistance,
-                "xp_reward": self.xp_reward}
+                "xp_reward": self.xp_reward,
+                "mana": self.mana,
+                "spell_power": self.spell_power,
+                "spell_keys": self.spell_keys
+                }
