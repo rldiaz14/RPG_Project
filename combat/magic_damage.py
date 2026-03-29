@@ -1,7 +1,4 @@
 
-from .damage import apply_defense
-
-
 def apply_spell_damage(raw: int, target) -> int:
     """
     Spell Mitigation - uses spell-resistance if target has it,

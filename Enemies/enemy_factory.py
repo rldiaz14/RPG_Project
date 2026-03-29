@@ -56,6 +56,23 @@ ENEMIES: dict[str, EnemyFactory] = {
                 "xp_reward": 8,
             },
     ),
+    "balanced_enemy" : EnemyFactory(
+      key="balanced_enemy",
+        cls=EnemyCharacter,
+        default={
+          "name" : "Balanced Enemy",
+          "max_hp": 70,
+          "attack": 10,
+          "defense": 4,
+          "speed": 5,
+          "mana" : 40,
+          "spell_power" : 8,
+          "behavior" : "balanced",
+          "spell_keys": ["fireball"],
+          "xp_reward": 15,
+        },
+    ),
+
     "dark_mage": EnemyFactory(
         key="dark_mage",
         cls=EnemyCharacter,

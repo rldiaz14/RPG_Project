@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+from typing import Dict, Any
+
 from .base_character import BaseCharacter
 
 @dataclass
@@ -19,3 +21,6 @@ class Warrior(BaseCharacter):
         # Warrior have better mitigation (flat reduction)
         reduced = max(0, raw_damage - (self.defense + 2))
         return reduced
+
+    def snapshot(self) -> Dict[str, Any]:
+        return {**super().snapshot(), "rage": self.rage}

@@ -1,6 +1,6 @@
+import random
 from magics.resolver import cast_spell
-from magics.spells import get_spell, SPELLS
-from typing import Optional
+from magics.spells import get_spell
 
 
 def enemy_turn(attacker, target, spell_keys: list[str] = None) -> dict:
@@ -12,17 +12,17 @@ def enemy_turn(attacker, target, spell_keys: list[str] = None) -> dict:
     behavior = getattr(attacker, "behavior", "aggressive")
 
     if behavior == "aggressive":
-        return _aggresive(attacker, target)
+        return _aggressive(attacker, target)
     elif behavior == "defensive":
         return _defensive(attacker, target)
-    elif behavior == "caster":
+    elif behavior == "balanced":
         return _balanced(attacker, target, spell_keys)
     elif behavior == "caster":
         return _caster(attacker, target, spell_keys)
 
     return attacker.attack_target(target) # fallback
 
-def _aggresive(attacker, target) -> dict:
+def _aggressive(attacker, target) -> dict:
     return attacker.attack_target(target)
 def _defensive(attacker, target) -> dict:
     hp_percent = attacker.hp / attacker.max_hp
@@ -39,7 +39,7 @@ def _defensive(attacker, target) -> dict:
     return attacker.attack_target(target)
 
 def _balanced(attacker, target, spell_keys: list[str] = None) -> dict:
-    import random
+
 
     # 50/50 between spell and attack if mana available
     if spell_keys and getattr(attacker, "mana", 0) > 0:
@@ -54,8 +54,6 @@ def _caster(attacker, target, spell_keys: list[str] = None) -> dict:
     return attacker.attack_target(target)
 
 def _try_cast(attacker, target, spell_keys: list[str] = None) -> dict:
-    import random
-
     key = random.choice(spell_keys)
     try:
         spell = get_spell(key)

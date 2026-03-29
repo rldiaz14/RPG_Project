@@ -10,11 +10,11 @@ from game.turn_order import determine_turn_order
 MAX_TURNS = 50
 
 def battle(player: BaseCharacter, enemy: EnemyCharacter) -> BattleResult:
-    turn = 0
+    turns = 0
     log = []
 
-    while player.is_alive() and enemy.is_alive() and turn < MAX_TURNS:
-        turn += 1
+    while player.is_alive() and enemy.is_alive() and turns < MAX_TURNS:
+        turns += 1
 
         first, second = determine_turn_order(player, enemy)
         out1 = _take_action(first, second)
@@ -25,7 +25,7 @@ def battle(player: BaseCharacter, enemy: EnemyCharacter) -> BattleResult:
 
         out2 = _take_action(second, first)
         log.append(out2)
-    return  _resolve(player, enemy, turn, log)
+    return  _resolve(player, enemy, turns, log)
 
 
 def _take_action(actor, target) -> dict:
