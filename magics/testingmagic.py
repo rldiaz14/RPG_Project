@@ -1,53 +1,48 @@
-from characters.factory import MageFactory, RogueFactory
+from tools.test_utils import (
+    make_mage, make_rogue, make_enemy,
+    assert_eq, assert_true, assert_false, run_test
+)
 from magics.spells import get_spell, Spell
 from magics.resolver import cast_spell
+from magics.elements import Element
+
 
 def test_spell_hit():
-    print("\n=== Test: Normal cast ====")
-    m = MageFactory.create(name="Vivi")
-    r = RogueFactory.create(name="Kira")
-
+    m = make_mage()
+    r = make_rogue()
     spell = get_spell("fireball")
-    print(f"Spell: {spell.name} | cost: {spell.cost_mana} | power: {spell.power} | accuracy: {spell.accuracy}")
-    print(f"Vivi mana before: {m.mana}")
-
-
-    result = cast_spell(m, r,spell)
-    print(f"Result: {result}")
-    print(f"Vivi mana after: {m.mana}")
-    print(f"Kira hp after: {r.hp}")
-
+    mana_before = m.mana
+    result = cast_spell(m, r, spell)
+    assert_eq("spell type", result["type"], "spell")
+    assert_true("mana deducted", m.mana < mana_before)
+    print(f"  Mana: {mana_before} → {m.mana}")
+    print(f"  Result: {result}")
 
 def test_spell_no_mana():
-    print("\n=== Test: Not enough mana ====")
-    m = MageFactory.create(name="Vivi", mana=5) # not enough for fireball (cost 10)
-    r = RogueFactory.create(name="Kira")
-
+    m = make_mage(mana=5)
+    r = make_rogue()
     result = cast_spell(m, r, get_spell("fireball"))
-    print(f"Result: {result}")
-    assert result["success"] == False
-    assert result["reason"] == "not_enough_mana"
-    print("PASSED")
+    assert_false("cast failed", result["success"])
+    assert_eq("reason", result["reason"], "not_enough_mana")
 
 def test_spell_miss():
-    print("\n=== Test: Force miss ===")
-    import random
-    random.seed(99)
-    m = MageFactory.create(name="Vivi")
-    r = RogueFactory.create(name="Kira")
-
-
-    #use a low accuracy spell to guarantee miss
-    from magics.elements import Element
-
-    weak_spell = Spell(key="weak", name="Weak Shot", element=Element.FIRE,
-                        cost_mana=5, power=5, accuracy=0.01)
-
+    m = make_mage()
+    r = make_rogue()
+    weak_spell = Spell(
+        key="weak", name="Weak Shot",
+        element=Element.FIRE,
+        cost_mana=5, power=5, accuracy=0.01
+    )
+    hp_before = r.hp
     result = cast_spell(m, r, weak_spell)
-    print(f"Result: {result}")
-    print(f"Kira hp (should be unchanged): {r.hp}")
+    assert_false("spell missed", result["success"])
+    assert_eq("hp unchanged", r.hp, hp_before)
+    print(f"  Result: {result}")
+
 
 if __name__ == "__main__":
-    test_spell_hit()
-    test_spell_no_mana()
-    test_spell_miss()
+    run_test(
+        test_spell_hit,
+        test_spell_no_mana,
+        test_spell_miss,
+    )
