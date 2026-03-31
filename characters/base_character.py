@@ -5,7 +5,6 @@ from typing import Dict, Any
 from combat.magic_damage import apply_element_modifier, apply_spell_damage
 from combat.rng import roll
 from combat.damage import apply_defense
-from items.equipment import Equipment
 
 
 @dataclass
@@ -23,9 +22,6 @@ class BaseCharacter:
     crit_chance: float = 0.10
     crit_multiplier: float = 1.5
     dodge_chance: float = 0.05
-
-    #Equipment slots (for future use)
-    equipment: Equipment = field(default_factory=Equipment)
 
     # Runtime
     hp: int = field(init=False)
@@ -56,7 +52,7 @@ class BaseCharacter:
     # ----------- Combat "hooks" (subclasses override these) -----------
     def compute_raw_damage(self, target: BaseCharacter) -> int:
         """Base damage before crit/target mitigation"""
-        return self.effective_stats().get("attack", self.attack)
+        return self.attack
 
     def on_before_attack(self, target: BaseCharacter) -> None:
         """Hook: buffs, stance, change, mana checks, etc. """
@@ -68,8 +64,7 @@ class BaseCharacter:
 
     def compute_damage_taken(self, raw_damage: int) -> int:
         """Mitigation formula (override for shield/armor types)."""
-        defense = self.effective_stats().get("defense", self.defense)
-        return apply_defense(raw_damage, defense)
+        return apply_defense(raw_damage, self.defense)
 
 
     # ---------- Core action ---------------
@@ -112,13 +107,16 @@ class BaseCharacter:
         self.on_after_attack(target, outcome)
         return outcome
 
-    def effective_stats(self):
+    def effective_stats(self, equipment=None):
         """
+
         Returns a stats snapshot after applying equipment (if provided).
         Does not mutate the character.
         """
-
-        return self.equipment.apply_all(self.snapshot())
+        base = self.snapshot()
+        if equipment is None:
+            return base
+        return equipment.apply_all(base)
 
 
     def take_spell_damage(self, raw_damage: int, element: str = None) -> Dict[str, Any]:

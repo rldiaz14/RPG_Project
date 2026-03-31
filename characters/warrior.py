@@ -10,7 +10,7 @@ class Warrior(BaseCharacter):
     def compute_raw_damage(self, target: BaseCharacter) -> int:
         """Warrior hits harder as rage builds"""
         bonus = self.rage // 10
-        return self.effective_stats().get("attack", self.attack) + bonus
+        return self.attack + bonus
 
     def on_after_attack(self, target: BaseCharacter, outcome: dict) -> None:
         # gain rage when you hit (or even when dodged, your choice)
@@ -19,8 +19,8 @@ class Warrior(BaseCharacter):
 
     def compute_damage_taken(self, raw_damage: int) -> int:
         # Warrior have better mitigation (flat reduction)
-        defense = self.effective_stats().get("defense", self.defense)
-        return max(0, raw_damage - (defense + 2))
+        reduced = max(0, raw_damage - (self.defense + 2))
+        return reduced
 
     def snapshot(self) -> Dict[str, Any]:
         return {**super().snapshot(), "rage": self.rage}
