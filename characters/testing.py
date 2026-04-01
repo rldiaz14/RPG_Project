@@ -1,4 +1,4 @@
-# characters/Testing.py
+# characters/testing.py
 from tools.test_utils import (
     make_warrior, make_mage, make_rogue,
     assert_eq, assert_true, assert_in, run_test
