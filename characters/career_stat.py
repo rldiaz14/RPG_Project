@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass, Field
+from dataclasses import dataclass, field
 from typing import Dict, Any
 
 @dataclass
@@ -45,7 +45,7 @@ class MageCareerStat:
     total_spell_damage: int = 0
 
     # Element tracking
-    element_used: Dict[str, int] = Field(default_factory=dict)
+    element_used: Dict[str, int] = field(default_factory=dict)
     consecutive_hits: int = 0
     max_consecutive_hits: int = 0
 
@@ -82,8 +82,30 @@ class RogueCareerStat:
     backstabs: int = 0          # speed advantage hits
     crits: int = 0              # critical hits landed
     kill_shots: int = 0         # finishing blows
-    total_damage_taken: int = 0
+    total_damage_dealt: int = 0
 
     # Defensive tracking
-    dodges:
+    dodges: int =0
+    total_damage_taken: int = 0
+
+    # Battle Tracking
+    battles_fought: int = 0
+    battles_won: int = 0
+    enemies_defeated: int = 0
+    turns_survived: int = 0
+
+    def snapshot(self) -> Dict[str, Any]:
+        return {
+            "backstabs": self.backstabs,
+            "crits": self.crits,
+            "kill_shots": self.kill_shots,
+            "total_damage_dealt": self.total_damage_dealt,
+            "dodges": self.dodges,
+            "total_damage_taken": self.total_damage_taken,
+            "battles_fought": self.battles_fought,
+            "battles_won": self.battles_won,
+            "enemies_defeated": self.enemies_defeated,
+            "turns_survived": self.turns_survived,
+
+        }
 
