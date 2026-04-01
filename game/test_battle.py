@@ -1,9 +1,9 @@
 from tools.test_utils import (
     make_warrior, make_enemy,
-    assert_eq, assert_in, run_test
+    assert_eq, assert_in, run_test, make_mage
 )
 from game.battle import battle
-
+from game.player_action import flee_action, cast_action
 
 def test_player_wins():
     w = make_warrior(level=10)
@@ -57,6 +57,23 @@ def test_battle_log():
               f"-> {entry.get('target', '?')}")
 
 
+def test_player_flee_success():
+    import random
+    random.seed(1)  # seed that produces flee success
+    w = make_warrior(speed=15)  # high speed = high flee chance
+    g = make_enemy("goblin")
+    result = battle(w, g, action_selector=flee_action)
+    print(f"  Outcome: {result.outcome} | Turns: {result.turns}")
+    assert_eq("outcome is flee", result.outcome, "flee")
+
+def test_player_cast_in_battle():
+    w = make_mage(level=10)
+    g = make_enemy("goblin")
+    result = battle(w, g, action_selector=cast_action("fireball"))
+    print(f"  Outcome: {result.outcome} | Turns: {result.turns}")
+    assert_eq("outcome is win", result.outcome, "win")
+
+
 if __name__ == "__main__":
     run_test(
         test_player_wins,
@@ -65,4 +82,6 @@ if __name__ == "__main__":
         test_turn_order_player_first,
         test_caster_enemy,
         test_battle_log,
+        test_player_flee_success,
+        test_player_cast_in_battle
     )

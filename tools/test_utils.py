@@ -112,4 +112,3 @@ def run_test(*test_funcs: Callable, seed: int = 42) -> None:
     print("\n" + "="*50)
     print(f"Results: {passed} passed, {fails} failed out of {passed+fails} tests")
     print("="*50)
-
