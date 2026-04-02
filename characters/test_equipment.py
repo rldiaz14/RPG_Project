@@ -26,6 +26,8 @@ def test_equipment_stats():
     print(f"  Boosted: attack={eff['attack']} defense={eff['defense']}")
 
 
+
+
 def test_equipment_affects_damage():
     w_no_gear = make_warrior(name="Guts")
     w_with_gear = make_warrior(name="Guts2")

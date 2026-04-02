@@ -1,8 +1,14 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Dict, Any
+
 from .base_character import BaseCharacter
+
+from .career_stat import RogueCareerStat
 
 @dataclass
 class Rogue(BaseCharacter):
+    career_stat: RogueCareerStat = field(default_factory=RogueCareerStat)
+
     # Rogues: higher crit/dodge by default, and "backstab" vs slower targets
     def __post_init__(self):
         super().__post_init__()
@@ -14,3 +20,6 @@ class Rogue(BaseCharacter):
         if self.speed > target.speed:
             dmg += 4 # backstab bonus
         return dmg
+
+    def snapshot(self) -> dict:
+        return {**super().snapshot()}

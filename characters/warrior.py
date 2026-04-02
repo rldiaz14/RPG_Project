@@ -1,11 +1,13 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Any
 
+from .career_stat import WarriorCareerStat
 from .base_character import BaseCharacter
 
 @dataclass
 class Warrior(BaseCharacter):
     rage: int = 0 # simple resource
+    career_stat: WarriorCareerStat = field(default_factory=WarriorCareerStat)
 
     def compute_raw_damage(self, target: BaseCharacter) -> int:
         """Warrior hits harder as rage builds"""
@@ -19,8 +21,8 @@ class Warrior(BaseCharacter):
 
     def compute_damage_taken(self, raw_damage: int) -> int:
         # Warrior have better mitigation (flat reduction)
-        reduced = max(0, raw_damage - (self.defense + 2))
-        return reduced
+        defense = self.effective_stats().get("defense",self.defense)
+        return max(0, raw_damage - (defense + 2))
 
     def snapshot(self) -> Dict[str, Any]:
         return {**super().snapshot(), "rage": self.rage}

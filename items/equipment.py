@@ -23,7 +23,9 @@ class Equipment:
         out = dict(base_stats)
         for item in (self.weapon, self.clothes, self.armament):
             if item is not None:
+                
                 out = item.apply(out)
+
 
         return out
 

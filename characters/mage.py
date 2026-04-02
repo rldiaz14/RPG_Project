@@ -1,13 +1,14 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Any
 
 from .base_character import BaseCharacter
-
+from .career_stat import MageCareerStat
 
 @dataclass
 class Mage(BaseCharacter):
     mana: int = 50
     spell_power: int = 8
+    career_stat: MageCareerStat = field(default_factory=MageCareerStat)
 
 
     def compute_raw_damage(self, target: BaseCharacter) -> int:
