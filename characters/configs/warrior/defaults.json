@@ -1,0 +1,17 @@
+{
+  "class_type": "warrior",
+  "level": 1,
+  "max_hp": 140,
+  "attack": 14,
+  "defense": 8,
+  "speed": 5,
+  "crit_chance": 0.10,
+  "crit_multiplier":1.5,
+  "dodge_chance": 0.05,
+  "rage": 0,
+  "weapon": null,
+  "clothes": null,
+  "armament": null,
+  "known_spells": [],
+  "titles": []
+}

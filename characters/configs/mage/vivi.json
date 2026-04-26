@@ -1,0 +1,19 @@
+{
+  "name": "Vivi",
+  "class_type": "mage",
+  "level": 1,
+  "max_hp": 90,
+  "attack": 8,
+  "defense": 3,
+  "speed": 6,
+  "crit_chance": 0.10,
+  "crit_multiplier":1.5,
+  "dodge_chance": 0.05,
+  "mana": 60,
+  "spell_power": 12,
+  "weapon": "fire_staff",
+  "clothes": "ice_robes",
+  "armament": null,
+  "known_spells": ["fireball"],
+  "titles": []
+}

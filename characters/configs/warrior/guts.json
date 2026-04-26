@@ -1,0 +1,18 @@
+{
+  "name": "Guts",
+  "class_type": "warrior",
+  "level": 1,
+  "max_hp": 140,
+  "attack": 14,
+  "defense": 8,
+  "speed": 5,
+  "crit_chance": 0.12,
+  "crit_multiplier":1.8,
+  "dodge_chance": 0.05,
+  "rage": 0,
+  "weapon": "iron_sword",
+  "clothes": "steel_armor",
+  "armament": "dark_charm",
+  "known_spells": [],
+  "titles": []
+}

@@ -1,8 +1,8 @@
 from __future__ import annotations
 import random
-from typing import Callable, Optional
+from typing import Callable
 
-from characters.factory import WarriorFactory, MageFactory, RogueFactory
+from characters.builder import CharacterBuilder
 from Enemies.enemy_factory import spawn_enemy
 from items.factory import create_item
 from items.equipment import Equipment
@@ -11,14 +11,14 @@ from items.equipment import Equipment
 
 
 # ---------- Character builders -------------
-def make_warrior(name: str = "Guts",level: int = 1, **overrides):
-    return WarriorFactory.create(name=name, level=level, **overrides)
+def make_warrior(name: str = "Guts", level: int = 1, **overrides):
+    return CharacterBuilder.from_default("warrior", name, level=level, **overrides)
 
 def make_mage(name: str = "Vivi", level: int = 1, **overrides):
-    return MageFactory.create(name=name, level=level, **overrides)
+    return CharacterBuilder.from_default("mage", name, level=level, **overrides)
 
 def make_rogue(name: str = "Kira", level: int = 1, **overrides):
-    return RogueFactory.create(name=name, level=level, **overrides)
+    return CharacterBuilder.from_default("rogue", name, level=level, **overrides)
 
 
 # -------------- Enemy Builders  -------------------
@@ -103,10 +103,10 @@ def run_test(*test_funcs: Callable, seed: int = 42) -> None:
             fn()
             passed += 1
         except AssertionError as e:
-            print(f"\ FAILED: {e}")
+            print(f" FAILED: {e}")
             fails += 1
         except Exception as e:
-            print(f"\ Error: {type(e).__name__}: {e}")
+            print(f" Error: {type(e).__name__}: {e}")
             fails += 1
 
     print("\n" + "="*50)
